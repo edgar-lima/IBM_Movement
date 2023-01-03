@@ -38,3 +38,46 @@ class Agentes():
         
 a= Agentes(dad)
 
+
+##### testes raster
+import numpy as np
+import rasterio as rasterio
+import matplotlib.pyplot as plt
+import rasterio.plot as show
+import os
+
+path= 'C:\\Users\\Edgar\\Documents\\Python_Scripts\\PDI\\BANQ.tif'
+
+bn= rasterio.open(path)# carregando
+bn.meta# mostrando metadados
+lg= bn.width
+lt= bn.height
+
+bn.
+
+bn2= bn.read()# abrindo o raster como uma matriz
+bn2.min()# valor minimo
+bn2.max()# valor maximo
+
+# testando idexacao
+a= np.array([3, 4])
+b= np.array([[3, 4], [9, 7]])
+c= np.array([[[3, 4], [9, 7]]])
+
+bn2[0,lt-1,lg-1]# Sequencia de linha x coluna (lat long)
+
+# Teste para checagem do raster
+a=[rd.choice(range(lt)), rd.choice(range(lg))]
+a
+bn2[0,a[0],a[1]]
+
+# Testando rastreamento das coordenadas
+d= [1,2]
+e= [[1,2],[3,4]]
+e.append([50,60])
+
+# idexacao da lista 
+e[2]
+e[2][0]# lat
+e[2][1]# long
+e.
