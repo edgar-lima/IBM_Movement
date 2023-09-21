@@ -38,7 +38,6 @@ class Agentes():
         
 a= Agentes(dad)
 
-
 ##### testes raster
 import numpy as np
 import rasterio as rasterio
@@ -53,31 +52,45 @@ bn.meta# mostrando metadados
 lg= bn.width
 lt= bn.height
 
-bn.
 
 bn2= bn.read()# abrindo o raster como uma matriz
 bn2.min()# valor minimo
 bn2.max()# valor maximo
 
-# testando idexacao
-a= np.array([3, 4])
-b= np.array([[3, 4], [9, 7]])
-c= np.array([[[3, 4], [9, 7]]])
 
-bn2[0,lt-1,lg-1]# Sequencia de linha x coluna (lat long)
 
-# Teste para checagem do raster
-a=[rd.choice(range(lt)), rd.choice(range(lg))]
-a
-bn2[0,a[0],a[1]]
+##### Descrevendo como deve ser a movimentacao dos indiduos  #######################
+##### de acordo com o modelo de movimento aleatorio do Paulo.#######################
 
-# Testando rastreamento das coordenadas
-d= [1,2]
-e= [[1,2],[3,4]]
-e.append([50,60])
+# **OBS: Maneira de usar as coordenadas para extrair os indices**
+bn.index(-47.76145,-13.93745)
 
-# idexacao da lista 
-e[2]
-e[2][0]# lat
-e[2][1]# long
-e.
+
+### Distancia media percorrida em um dia em km pelo tamanho da celula.
+resol= bn.res #Checar qual eh a resolucao (tamanho da celula) do mapa.
+R= resol[0]*6.509/0.909 # multiplicar a resolucao pela divisao de 6.509/0.909.
+# R= a distancia media que um individuo anda por dia, no circulo ele representa o raio.
+# 6.509/0.909= distância média percorrida por dia em km dividido pelo tamanho da célula.
+
+### Transformando a distancia media que o individuo percorre por dia em km para
+### distancia media em graus decimais.
+R1=6.509/110 #transformar km em graus decimais 
+ 
+### EScolhendo ao acaso as localizacoes iniciais
+ee= bn.bounds # Checando quais sao as coordenadas XYmin e XYmax do mapa.
+X= ee[0]+(ee[2]-ee[0])*np.random.uniform(size= 1) # Selecionando ao acaso as localizacoes iniciais de X.
+Y= ee[1]+(ee[3]-ee[1])*np.random.uniform(size= 1) # Selecionando ao acaso as localizacoes iniciais de X.
+
+### EScolhendo sistematicamente as localizacoes iniciais.(**OBS: trabalhar nisso depois)
+e = [X[0],Y[0]]
+ee= teste.bounds
+
+### Esse procedimentos sao necessarios para padronizar as coisas antes de comecar a
+### movimentacao. OBS: Pensar como vai ser a melhor maneira de fazer isso. 
+
+### Evitando que o individuo caia fora do mapa.
+
+
+
+
+

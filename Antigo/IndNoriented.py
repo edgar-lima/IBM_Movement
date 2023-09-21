@@ -10,12 +10,16 @@ class IndNoriented(Individuo):
       # Turn angle
       teta= np.random.uniform(size= 1)*2*np.pi
       
-      # X/Y coordinate
+      # X/Y coordinate (long,lat)
       xcoord= self.coord[-1][0]+self.hrs*np.cos(teta)
       ycoord= self.coord[-1][1]+self.hrs*np.sin(teta)
       self.coord.append([ycoord.tolist(),xcoord.tolist()])
       
       
+
+
+
+
 
 
  
