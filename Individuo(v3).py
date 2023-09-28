@@ -42,8 +42,6 @@ ag
 ## Fazendo teste com individuo nao orientado 
 ag2= IndNoriented(dad3, a,b,c)
 
-### Fazendo testes da checagem da celula
-a.coord[-1]
-lat= a.coord[-1][0]
-lon= a.coord[-1][1]
-bn2[0,lat,lon]
+
+
+

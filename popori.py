@@ -12,7 +12,7 @@ import numpy as np
 # res: Tamanho do pixel.
 # dr: Diretorio em que os dados serão salvos
 
-def pop(nind, bs, bsd,eq,land,dr):
+def popori(nind, bs, bsd,eq,land,dr):
   
   population = []
   res= (land.meta['transform'][4]+land.meta['transform'][4])/2
@@ -42,10 +42,6 @@ def pop(nind, bs, bsd,eq,land,dr):
   
   for i in range(population2.shape[0]):
    
-    pop2.append(IndNoriented(population2.values[i,:],eq))
+    pop2.append(IndOriented(population2.values[i,:],eq))
    
   return(pop2)
-
-
-
-pop(10, 2.5, 0.8, c,are, 10, dr)
