@@ -12,7 +12,7 @@ class Individuo():
     
     agente_id = 0
 
-    def __init__(self, x,eq,land=None):
+    def __init__(self, x,eq,land):
       
         Individuo.agente_id += 1   
            

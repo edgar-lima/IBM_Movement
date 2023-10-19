@@ -90,132 +90,66 @@ ee= teste.bounds
 
 ### Evitando que o individuo caia fora do mapa.
 
-### Teste aprendizado por reforco
-import numpy as np
-import tensorflow as tf
+  k= 0
+  while(k<ite):
+    
+    lcheck=[]
 
-### Paisagem 
-paisagem = np.array([
-    [-1, -1, -1, -1, -1],
-    [-1, 0, -1, 0, -1],
-    [-1, 0, 0, 0, -1],
-    [-1, -1, -1, -1, -1],
-    [-1, 0, 0, 0, 1]])
+    for g in range(len(ind)):
+      lcheck.append(ind[g].coord[-1])
+      
+# etapa de chacagem da paisagem e da acupação das celulas      
+    for i in range(len(ind)):
+      
+      lc= land1.index(ind[i].coord[-1][0],ind[i].coord[-1][1])
+      respEnvir= land2[0,lc[1],lc[0]]
+      #print(lc)
+      tx= []
+      ty=[]
+      
+      for l in lcheck:
+        tx.append(int(ind[i].coord[0][0] == l[0])) 
+        ty.append(int(ind[i].coord[0][1] == l[1]))
 
-### Tamanho
-altura, largura = paisagem.shape
+      arx= np.array(tx)
+      ary= np.array(ty)
+      temp= arx+ary
+      temp= np.where(temp>1,1,0)
+      ocup= sum(temp)
+      aleat= rd.choices([0,1],[0.9,0.1])[0]
+      #print(k)
 
-### Parametros
-alpha = 0.1  # Taxa de aprendizado
-gamma = 0.9  # Fator de desconto
-epsilon = 0.1  # Probabilidade de ação aleatoria
+      if respEnvir == 0:
+        ind[i].move()
+        #lcheck[i]= ind[i].coord[-1]
 
-# Crie uma tabela Q como uma rede neural em TensorFlow
-modelo = tf.keras.Sequential([tf.keras.layers.Input(shape=(altura, largura, 1)),
-    tf.keras.layers.Flatten(),
-    tf.keras.layers.Dense(32, activation='relu'),
-    tf.keras.layers.Dense(4)])  # 4 ações possíveis (cima, baixo, esquerda, direita)
+      
+      elif respEnvir==1 and ocup >=20*0.50:
+        ind[i].move()
+        #lcheck[i]= ind[i].coord[-1]
 
-# Compile o modelo
-modelo.compile(optimizer='adam', loss='mean_squared_error')
+      elif respEnvir==1 and ocup <20*0.50 and aleat==1:
+        ind[i].move()
+        #lcheck[i]= ind[i].coord[-1]
 
-# Treinamento dos agentes usando Q-Learning
-episodios = 1000
+      else:
+        ind[i].coord.append([ind[i].coord[-1][0],ind[i].coord[-1][1]])
+        #lcheck[i]= ind[i].coord[-1]
 
-for episodio in range(episodios):
-    estado = np.zeros((1, altura, largura, 1))
-    x, y = 0, 1  # Posição inicial do agente
-    estado[0, x, y, 0] = 1  # Codificação one-hot do estado inicial
-
-    while paisagem[x, y] != 1:  # Enquanto não atingir o objetivo
-        if np.random.rand() < epsilon:
-            acao = np.random.randint(0, 4)  # Ação aleatória com probabilidade epsilon
-        else:
-            acao = np.argmax(modelo.predict(estado)[0])  # Escolha ação com base no modelo
-
-        novo_x, novo_y = x, y
-        if acao == 0:  # Cima
-            novo_x = max(x - 1, 0)
-        elif acao == 1:  # Baixo
-            novo_x = min(x + 1, altura - 1)
-        elif acao == 2:  # Esquerda
-            novo_y = max(y - 1, 0)
-        else:  # Direita
-            novo_y = min(y + 1, largura - 1)
-
-        novo_estado = np.zeros((1, altura, largura, 1))
-        novo_estado[0, novo_x, novo_y, 0] = 1
-
-        recompensa = paisagem[novo_x, novo_y]
-        target = modelo.predict(estado)
-        target[0][0]
-        target[0, x, y, acao] = recompensa + gamma * np.max(modelo.predict(novo_estado)[0])
-
-        modelo.fit(estado, target, epochs=1, verbose=0)
-
-        x, y, estado = novo_x, novo_y, novo_estado
-
-# Sem rede neural
-
-import numpy as np
-import random
-
-# Defina a paisagem como uma matriz de recompensas (por exemplo, -1 para obstáculos, 0 para espaços vazios, 1 para objetivo)
-paisagem = np.array([
-    [-1, -1, -1, -1, -1],
-    [-1, 0, -1, 0, -1],
-    [-1, 0, 0, 0, -1],
-    [-1, -1, -1, -1, -1],
-    [-1, 0, 0, 0, 1]
-])
-
-# Defina o tamanho do ambiente
-altura, largura = paisagem.shape
-
-# Taxa de aprendizado
-alpha = 0.1
-
-# Fator de desconto
-gamma = 0.9
-
-# Número de episódios de treinamento
-episodios = 1000
-
-# Tabela Q para armazenar os valores Q
-Q = np.zeros((altura, largura, 4))  # 4 ações possíveis (cima, baixo, esquerda, direita)
-
-# Função para escolher uma ação com base na tabela Q e na política epsilon-greedy
-def escolher_acao(estado, epsilon):
-    if random.uniform(0, 1) < epsilon:
-        return random.randint(0, 3)  # Escolha uma ação aleatória com probabilidade epsilon
-    else:
-        return np.argmax(Q[estado])
-
-# Treinamento dos agentes usando Q-Learning
-for episodio in range(episodios):
-    estado = (0, 1)  # Posição inicial do agente
-    while estado != (4, 4):  # Enquanto não atingir o objetivo
-        acao = escolher_acao(estado, epsilon=0.1)  # Escolher ação com base na política epsilon-greedy
-        x, y = estado
-        if acao == 0:  # Cima
-            novo_estado = (max(x - 1, 0), y)
-        elif acao == 1:  # Baixo
-            novo_estado = (min(x + 1, altura - 1), y)
-        elif acao == 2:  # Esquerda
-            novo_estado = (x, max(y - 1, 0))
-        else:  # Direita
-            novo_estado = (x, min(y + 1, largura - 1))
+    k+=1
+    px= []
+    py= []
+      
+    for p in range(len(lcheck)):
+      
+      px.append(lcheck[p][0])
+      py.append(lcheck[p][1])
         
-        recompensa = paisagem[novo_estado]
-        Q[x, y, acao] = (1 - alpha) * Q[x, y, acao] + alpha * (recompensa + gamma * np.max(Q[novo_estado]))
-        estado = novo_estado
-
-# Agora a tabela Q contém os valores Q aprendidos
-print("Tabela Q:")
-print(Q)
-
-
-
+    plt.figure(figsize= (8,8))
+    show(land)
+    plt.scatter(px,py, color= "red")
+    plt.show()
+    time.sleep(0.1)
 
 
 
