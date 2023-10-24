@@ -1,6 +1,6 @@
 ## Criando individuo com memoria
 
-class IndMemory(Individuo):
+class IndMemory(IndNoriented):
       
       def __init__(self, x,eq,land):
         
@@ -14,15 +14,15 @@ class IndMemory(Individuo):
 
       
       def movetrain(self):
-        
         teta= np.random.uniform(size= 1)*2*np.pi
-        xcoord= self.coord[-1][0]+self.hrs*np.cos(teta)
-        ycoord= self.coord[-1][1]+self.hrs*np.sin(teta)
+        raio= rd.uniform(1,self.hrs)
+        xcoord= self.coord[-1][0]+raio*np.cos(teta)
+        ycoord= self.coord[-1][1]+raio*np.sin(teta)
         check= self.land.index(xcoord[0],ycoord[0])
-
+        
+        
         if 0>check[0] or check[0]>= self.xmax or 0>check[1] or check[1] >= self.ymax:
           self.coord.append([self.coord[-1][0],self.coord[-1][1]])
-
 
         else:
           self.coord.append([xcoord[0],ycoord[0]])
@@ -32,7 +32,7 @@ class IndMemory(Individuo):
       def train (self):
           alpha = 0.1 # Taxa de aprendizado
           gamma = 0.9 # Fator de desconto
-          episodios = 1000 # Número de episódios de treinamento
+          episodios = 500 # Número de episódios de treinamento
           epsilon= 0.1 # Probabilidade de acao aleatoria
           land1= land.read()
           ocup= [5,15]
