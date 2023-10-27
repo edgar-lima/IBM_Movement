@@ -125,7 +125,7 @@ def coordconv(raster):
 # trath: tratamento(quantidade de habitat)
 
 def fsave(x,tratm,trath):
-  a
+
   id= []
   long=[]
   lat= []
@@ -138,3 +138,25 @@ def fsave(x,tratm,trath):
   dados= {"Ind":id, "Long":long, "Lat":lat}
   results= pd.DataFrame(dados) 
   results.to_excel(tratm+f"{trath}.xlsx",index=False)
+
+#######################################
+### Função para fazer o censo da célula
+#######################################
+def censo(x,y,indcoor=None):
+  spop= []
+  
+  if indcoor ==None:
+    for xi,yi in zip(x,y):
+      nid= sum([xi==x2 and yi==y2 for x2,y2 in zip(x,y)])
+      spop.append(nid)
+
+  else:
+    nid= sum([indcoor[0]==x2 and indcoor[1]==y2 for x2,y2 in zip(x,y)])
+    spop.append(nid)
+    
+    
+  result= {"x":x, "y":y, "censo":spop} 
+  return result
+
+
+

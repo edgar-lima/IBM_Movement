@@ -1,7 +1,3 @@
-###Liberando pacotes
-import pandas as pd
-import numpy as np
-
 ###Criando a classe individuo
 # x: Lista contendo [especie,sexo,Massa,Lat,Long] 
 # eqintake:
@@ -21,7 +17,7 @@ class Individuo():
         self.coord= [[x[1],x[2]]]
         #self.intake= self.mass*eqintake[0]**eqintake[1]
         #self.tbm= self.mass*eqtbm[0]**eqtbm[1]
-        self.hrs= (self.mass*eq[0]**eq[1])/111.320 # 111.320 é um metro em graus decimais
+        self.hrs= (self.mass*eq[0]**eq[1])/11131 # 11131 é um metro em graus decimais
         self.id = Individuo.agente_id
 
     def __repr__(self):

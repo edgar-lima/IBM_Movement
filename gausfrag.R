@@ -24,9 +24,18 @@ gausfrag = function(aresta,pais,filhos){
 
 
 # utilizei a uma aresta de 110 para a resolução do raster ter 1m
-D=gausfrag(110,70,40)
+D=gausfrag(445,70,40)
 #x11()
 #hist(D,main="distribuição dos valores originais")
+ras= "C:\\Users\\Edgar\\Documents\\Python_Scripts\\PDI\\habin3.tif"
+rast(ras)
+image(mrast)
+p= 0.5
+p1=quantile(D,1-p)
+mrast= raster(D>p1)
+aggregate(mrast, fact=9 )
+
+
 
 for (p in seq(0.1,0.9,0.1)){
   p1=quantile(D,1-p)
