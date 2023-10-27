@@ -20,57 +20,25 @@ gausfrag = function(aresta,pais,filhos){
   mx=max(D)
   D=(D - mn)/(mx-mn);
   return(D)}
-
-
-
-# utilizei a uma aresta de 110 para a resolução do raster ter 1m
-D=gausfrag(445,70,40)
-#x11()
-#hist(D,main="distribuição dos valores originais")
-ras= "C:\\Users\\Edgar\\Documents\\Python_Scripts\\PDI\\habin3.tif"
-rast(ras)
-image(mrast)
-p= 0.5
-p1=quantile(D,1-p)
-mrast= raster(D>p1)
-aggregate(mrast, fact=9 )
-
-
-
-for (p in seq(0.1,0.9,0.1)){
-  p1=quantile(D,1-p)
-  #x11()
-  image(D>p1)
-  title(main=p)
-  # print(c(p,p1,mean(D>=p1)))
-}
-
+D=gausfrag(100,70,40)
 ####################################################################################
-############################Tranformando a resolução do raster######################
+############################Gerador de rasters #####################################
 ####################################################################################
-#Transformando metros em graus decimais 2/111.320.
-# 1 metro tem 111.320 graus.
+pland= seq(0.1,0.9,0.1)
+a= landgenerator(100,70,40,10,0.2)
 
-= seq(0.1,0.9,0.1)
-
-for(i in 3:10){
-  landgenerator(110,70,40,pland,i)
-}
-
-
-landgenerator= function(aresta,pais,filhos,pland,n){
-  
+landgenerator= function(aresta,pais,filhos,cres,pland,n=1){
   D= gausfrag(aresta,pais,filhos)
+  resGD= cres/11131
+  coord_max= resGD*aresta
   
   for (p in pland){
     p1=quantile(D,1-p)
-    mrast= raster(D>p1)
+    mrast= raster(D>p1, xmn = 0, xmx = coord_max,ymn = 0, ymx = coord_max)
     nrast= paste0("Land",gsub("%","", names(p1)),"_",n,".tif")
-    writeRaster(mrast,nrast,format="GTiff", overwrite= F)
+    #writeRaster(mrast,nrast,format="GTiff", overwrite= F)
 
     
   }
-  
+  return(mrast)
 }
-
-

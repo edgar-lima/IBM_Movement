@@ -26,6 +26,10 @@ ind= movement(ma,c,land,"NOri")
 ind= movement(ma,c,land,"Memo")
 ind[0].train()
 ind[0].Q
+i= ind[0]
+del i.coord[1:len(i.coord)]
+
+
 
 #############################################
 ################ Meta-modelo ################
@@ -120,34 +124,13 @@ fsave(ind,tratm,trath)
       ocup= censo(chlong,chlat,lc)
       Eatual= i.avaliar_celula(respEnvir,ocup["censo"][0])
       aleat= rd.choices([0,1],[0.9,0.1])[0]
-      #print(Eatual)
-      
-      if Eatual == 0:
-        ponto = Point(i.coord[-1][0],i.coord[-1][1])
-        buff = ponto.buffer(i.hrs)
-        rec, recorte = mask(land, [buff], crop=False)
-        ocland= censo(chlong,chlat)
-        Earredor= i.avaliar_arredor(rec, ocland)
-        i.moveM(Eatual,Earredor,lc)
-        
-      elif Eatual == 1:
-        ponto = Point(i.coord[-1][0],i.coord[-1][1])
-        buff = ponto.buffer(i.hrs)
-        rec, recorte = mask(land, [buff], crop=False)
-        ocland= censo(chlong,chlat)
-        Earredor= i.avaliar_arredor(rec, ocland)
-        i.moveM(Eatual,Earredor,lc)
 
-      elif Eatual == 2 and aleat==1:
-        ponto = Point(i.coord[-1][0],i.coord[-1][1])
-        buff = ponto.buffer(i.hrs)
-        rec, recorte = mask(land, [buff], crop=False)
-        ocland= censo(chlong,chlat)
-        Earredor= i.avaliar_arredor(rec, ocland)
-        i.moveM(Eatual,Earredor,lc)
-
-      else:
-        i.coord.append([i.coord[-1][0],i.coord[-1][1]])
+      ponto = Point(i.coord[-1][0],i.coord[-1][1])
+      buff = ponto.buffer(i.hrs)
+      rec, recorte = mask(land, [buff], crop=False)
+      ocland= censo(chlong,chlat)
+      Earredor= i.avaliar_arredor(rec, ocland)
+      i.moveM(Eatual,Earredor,lc)
     k+= 1
 # Gráfico para a conferência do modelo  
     px= []
