@@ -3,6 +3,7 @@ import pandas as pd
 import random as rd
 import matplotlib.pyplot as plt
 import numpy as np
+import re
 from nlmpy import nlmpy
 from rasterio.plot import show
 import rasterio
@@ -46,7 +47,7 @@ def pop(nind, bs, bsd,eq,land,dr):
     cont1 += 1 
   
   population2= pd.DataFrame(population, columns= ["Massa", "Long", "Lat"])
-  population2.to_excel(dr+'population2.xlsx')
+  population2.to_excel(dr+'population.xlsx')
   return(population2)
 
 ########################################################
@@ -105,7 +106,7 @@ def coordconv(raster):
 
   x1=[]
   y1=[]
-  print("funcionando")
+  #print("funcionando")
   
   for i in range(len(x)):
     
@@ -124,11 +125,12 @@ def coordconv(raster):
 # tratm: tratamento(tipo de movimento)
 # trath: tratamento(quantidade de habitat)
 
-def fsave(x,tratm,trath):
+def fsave(x,tratm,trath,dr):
 
   id= []
   long=[]
   lat= []
+  ind= x
   for i in ind:
     for l in range(len(i.coord)):
       id.append(i)
@@ -137,7 +139,7 @@ def fsave(x,tratm,trath):
       
   dados= {"Ind":id, "Long":long, "Lat":lat}
   results= pd.DataFrame(dados) 
-  results.to_excel(tratm+f"{trath}.xlsx",index=False)
+  results.to_excel(dr+tratm+f"{trath}.xlsx",index=False)
 
 #######################################
 ### Função para fazer o censo da célula
@@ -157,6 +159,3 @@ def censo(x,y,indcoor=None):
     
   result= {"x":x, "y":y, "censo":spop} 
   return result
-
-
-

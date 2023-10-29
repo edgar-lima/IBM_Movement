@@ -1,6 +1,7 @@
-setwd("C:\\Users\\Edgar\\OneDrive - unb.br\\IBM_Movement\\LandScapes")
+setwd("D:\\HD\\Documents\\Edgar\\Doutorado\\IBM_Movement\\LandScapes\\L1")
 library(raster)
-
+library(terra)
+library(landscapemetrics)
 gausfrag = function(aresta,pais,filhos){
   D=matrix(nrow=aresta,ncol=aresta,data=0)
   for (ipais in 1:pais){
@@ -25,7 +26,7 @@ D=gausfrag(100,70,40)
 ############################Gerador de rasters #####################################
 ####################################################################################
 pland= seq(0.1,0.9,0.1)
-a= landgenerator(100,70,40,10,0.2)
+a= landgenerator(100,70,40,10,pland)
 
 landgenerator= function(aresta,pais,filhos,cres,pland,n=1){
   D= gausfrag(aresta,pais,filhos)
@@ -36,9 +37,14 @@ landgenerator= function(aresta,pais,filhos,cres,pland,n=1){
     p1=quantile(D,1-p)
     mrast= raster(D>p1, xmn = 0, xmx = coord_max,ymn = 0, ymx = coord_max)
     nrast= paste0("Land",gsub("%","", names(p1)),"_",n,".tif")
-    #writeRaster(mrast,nrast,format="GTiff", overwrite= F)
+    writeRaster(mrast,nrast,format="GTiff", overwrite= F)
 
     
   }
   return(mrast)
 }
+
+
+
+
+

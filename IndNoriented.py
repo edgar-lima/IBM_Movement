@@ -9,11 +9,9 @@ class IndNoriented(Individuo):
         self.ymax= self.land.meta["height"]
         
     def move(self):
-      
       # Turn angle
       teta= np.random.uniform(size= 1)*2*np.pi
-      # X/Y coordinate (long,lat)
-      raio= rd.uniform(1,self.hrs)
+      raio= self.hrs
       xcoord= self.coord[-1][0]+raio*np.cos(teta)
       ycoord= self.coord[-1][1]+raio*np.sin(teta)
       check= self.land.index(xcoord[0],ycoord[0])

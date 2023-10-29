@@ -1,10 +1,10 @@
-# Model parameters:
-# nind; Numero de individuos.
-# bs: Tamanho corporal medio.
-# bsd: Desvio padrao do tamanho corporal.
-# eq: Parametros da equacao nao-linear para o calculo do tamanho do home range.
-# ite: Número de iterações.
-# dr: Diretório onde serão salvos os resultados.
+# Meta-model parameters:
+# nind: Number of ind.viduals.
+# bs: Mean body size.
+# bsd: Standard deviation of body size.
+# eq: Non-linear parameters of allometric equation [Y,B].
+# ite: Number of iterections.
+# dr: Directory to save results.
 
 ########################
 ####### Etapas de testes
@@ -14,6 +14,9 @@ ras= "D:\\HD\\Documents\\Edgar\\Doutorado\\IBM_Movement\\LandScapes\\L1\\Land30_
 dr= 'C:/Users/Edgar/OneDrive - unb.br/IBM_Movement/'
 dr + 'population2.xlsx'
 land= rasterio.open(ras)
+tes2= "D:HD/Documents/Edgar/Doutorado/IBM_Movement/LandScapes/L1/Land10_1.tif"
+padrao= r"Land\d+"
+re.findall(r"Land\d+", tes2)[0]
 
 S_cinnamomea= [7.5,0.5]# media e desvio padrao (n= 2).
 S_maximiliani= [20.5,0.3]# media e desvio padrao (n= 2).
@@ -43,8 +46,7 @@ def meta(nind, bs, bsd,eq,ite=100,dr):
   
 ### Carregando as paisagens
 # Será necessário criar um while para selecionar cada um dos tratamentos.
-  land1= land
-  land2= land1.read()
+  land1= land.read()
   ind= indNori
   k= 0
 
@@ -63,8 +65,8 @@ def meta(nind, bs, bsd,eq,ite=100,dr):
 # Checando a paisagem e a capacidade de suporte    
     for i in range(len(ind)):
       
-      lc= land1.index(ind[i].coord[-1][0],ind[i].coord[-1][1])
-      respEnvir= land2[0,lc[1], lc[0]]# linha x coluna
+      lc= land.index(ind[i].coord[-1][0],ind[i].coord[-1][1])
+      respEnvir= land1[0,lc[1], lc[0]]# linha x coluna
       ocup= [i == ind[0].coord[-1] for i in lcheck]
       ocup2= sum(ocup)
       aleat= rd.choices([0,1],[0.9,0.1])[0]
@@ -119,8 +121,8 @@ fsave(ind,tratm,trath)
 
 #Checagem do estado atual dos indivíduos     
     for i in ind:
-      lc= land1.index(i.coord[-1][0],i.coord[-1][1])
-      respEnvir= land2[0,lc[1],lc[0]]
+      lc= land.index(i.coord[-1][0],i.coord[-1][1])
+      respEnvir= land1[0,lc[1],lc[0]]
       ocup= censo(chlong,chlat,lc)
       Eatual= i.avaliar_celula(respEnvir,ocup["censo"][0])
       aleat= rd.choices([0,1],[0.9,0.1])[0]
