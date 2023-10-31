@@ -72,7 +72,8 @@ class IndMemory(Individuo):
           cont += 1
           
       def moveM(self,eatual,earredor,catual):
-        e= 0.1
+        e= 0.2
+        e2= 0.1
         ale= rd.uniform(0,1)
         ale2= rd.uniform(0,1)
         #rmax= np.argmax(Q[eatual]) # Qual ação dá a melhor recompensa
@@ -81,7 +82,7 @@ class IndMemory(Individuo):
         X= [earredor["x"][indice] for indice in tes]
         Y= [earredor["y"][indice] for indice in tes]
         
-        if eatual < estmax_disp and estmax_disp !=0: # estado atual é pior que os estados disponíveis?
+        if self.Q[eatual,eatual] < self.Q[estmax_disp,estmax_disp] and estmax_disp !=0: # estado atual é pior que os estados disponíveis?
           if len(X)>1 and ale>e: #escolhendo a célula de melhor estado mais próxima
             distx= abs(catual[0]- np.array(X))
             disty= abs(catual[1]- np.array(Y))
@@ -99,7 +100,7 @@ class IndMemory(Individuo):
             nova_coord= convert(X[0],Y[0],self.land.meta["transform"][:])
             self.coord.append([nova_coord[0],nova_coord[1]])
             
-        elif eatual == estmax_disp and estmax_disp == 0:
+        elif self.Q[eatual,eatual] == self.Q[estmax_disp,estmax_disp] and estmax_disp == 0:
           if len(X)>1 and ale>e: #escolhendo a célula de melhor estado mais próxima
             distx= abs(catual[0]- np.array(X))
             disty= abs(catual[1]- np.array(Y))
@@ -113,10 +114,10 @@ class IndMemory(Individuo):
             nova_coord= convert(X[idfut],Y[idfut],self.land.meta["transform"][:])
             self.coord.append([nova_coord[0],nova_coord[1]])
             
-        elif eatual >= estmax_disp and ale2<e:
+        elif self.Q[eatual,eatual] >= self.Q[estmax_disp,estmax_disp] and ale2<e2:
           self.coord.append([self.coord[-1][0],self.coord[-1][1]])
 
-        elif eatual >= estmax_disp and ale2>e:
+        elif self.Q[eatual,eatual] >= self.Q[estmax_disp,estmax_disp] and ale2>e2:
           if len(X)>1 and ale>e: #escolhendo a célula de melhor estado mais próxima
             distx= abs(catual[0]- np.array(X))
             disty= abs(catual[1]- np.array(Y))

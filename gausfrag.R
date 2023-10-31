@@ -1,4 +1,4 @@
-setwd("D:\\HD\\Documents\\Edgar\\Doutorado\\IBM_Movement\\LandScapes\\L1")
+setwd("D:\\HD\\Documents\\Edgar\\Doutorado\\IBM_Movement\\LandScapes")
 library(raster)
 library(terra)
 library(landscapemetrics)
@@ -44,7 +44,8 @@ landgenerator= function(aresta,pais,filhos,cres,pland,n=1){
   return(mrast)
 }
 
-
-
+for (p in pland){
+  print(1-p)
+}
 
 
