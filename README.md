@@ -27,4 +27,4 @@ capacity model.
 By: Ph.D. Edgar Luiz de Lima  
 e-mail: edgarluizdelima@gmail.com  
 Research Gate: [Edgar Luiz de Lima]
-   (https://www.researchgate.net/profile/Edgar-Luiz-De-Lima)
+(https://www.researchgate.net/profile/Edgar-Luiz-De-Lima)
