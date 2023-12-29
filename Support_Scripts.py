@@ -95,7 +95,6 @@ def convert(x,y, conf):
 ### Function to select the coordenates for individuals
 ######################################################
 def coordconv(raster):
-  
   tabras= raster.read()
   resx= raster.meta['transform'][0]# resulucao colunas
   resy= raster.meta['transform'][4]# resulucao linhas
@@ -106,17 +105,13 @@ def coordconv(raster):
 
   x1=[]
   y1=[]
-  #print("funcionando")
   
   for i in range(len(x)):
-    
     x1.append(ox + x[i] * resx)
     y1.append(oy + y[i] * resy) 
     
-  
-    
   coord0= pd.DataFrame({"Long":x1, "Lat":y1})
-  return(coord0) 
+  return coord0 
 
 #################################
 ### Fuction to save results table

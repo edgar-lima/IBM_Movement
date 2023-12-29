@@ -49,7 +49,7 @@ class IndMemory(Individuo):
       def train(self):
         alpha= 0.1 # Taxa de aprendizado
         gamma= 0.9 # Fator de desconto
-        epi= 355 # Número de episódios de treinamento
+        epi= 730 # Número de episódios de treinamento
         epsilon= 0.1 # Probabilidade de acao aleatoria
         land1= self.land.read()
         ocup=[1,100]
@@ -72,18 +72,17 @@ class IndMemory(Individuo):
           cont += 1
           
       def moveM(self,eatual,earredor,catual):
-        e= 0.2
         e2= 0.1
         ale= rd.uniform(0,1)
         ale2= rd.uniform(0,1)
-        #rmax= np.argmax(Q[eatual]) # Qual ação dá a melhor recompensa
+        rmin= self.Q[0,0] # Qual ação dá a melhor recompensa
         estmax_disp= np.max(list(set(earredor["Estado"])))
         tes= np.where(earredor["Estado"]==estmax_disp)[0].tolist()
         X= [earredor["x"][indice] for indice in tes]
         Y= [earredor["y"][indice] for indice in tes]
         
-        if self.Q[eatual,eatual] < self.Q[estmax_disp,estmax_disp] and estmax_disp !=0: # estado atual é pior que os estados disponíveis?
-          if len(X)>1 and ale>e: #escolhendo a célula de melhor estado mais próxima
+        if self.Q[eatual,eatual] < self.Q[estmax_disp,estmax_disp]: # estado atual é pior que os estados disponíveis?
+          if len(X)>1: #escolhendo a célula de melhor estado mais próxima
             distx= abs(catual[0]- np.array(X))
             disty= abs(catual[1]- np.array(Y))
             euc_dist= (distx+disty)/2
@@ -91,17 +90,17 @@ class IndMemory(Individuo):
             nova_coord= convert(X[idfut],Y[idfut],self.land.meta["transform"][:])
             self.coord.append([nova_coord[0],nova_coord[1]])
 
-          elif len(X)>1 and ale<=e: # escolha aleatória da célula com melhor estado.
-            idfut= rd.sample(range(len(X)),1)[0]
-            nova_coord= convert(X[idfut],Y[idfut],self.land.meta["transform"][:])
-            self.coord.append([nova_coord[0],nova_coord[1]])
+#          elif len(X)>1 and ale<=e: # escolha aleatória da célula com melhor estado.
+#            idfut= rd.sample(range(len(X)),1)[0]
+#            nova_coord= convert(X[idfut],Y[idfut],self.land.meta["transform"][:])
+#            self.coord.append([nova_coord[0],nova_coord[1]])
             
           else:# Há apenas uma célula com o melhor estado
             nova_coord= convert(X[0],Y[0],self.land.meta["transform"][:])
             self.coord.append([nova_coord[0],nova_coord[1]])
             
-        elif self.Q[eatual,eatual] == self.Q[estmax_disp,estmax_disp] and estmax_disp == 0:
-          if len(X)>1 and ale>e: #escolhendo a célula de melhor estado mais próxima
+        elif self.Q[eatual,eatual] == self.Q[estmax_disp,estmax_disp] and estmax_disp == rmin:
+          if len(X)>1: #escolhendo a célula de melhor estado mais próxima
             distx= abs(catual[0]- np.array(X))
             disty= abs(catual[1]- np.array(Y))
             euc_dist= (distx+disty)/2
@@ -109,16 +108,16 @@ class IndMemory(Individuo):
             nova_coord= convert(X[idfut],Y[idfut],self.land.meta["transform"][:])
             self.coord.append([nova_coord[0],nova_coord[1]])
             
-          elif len(X)>1 and ale<=e: # escolha aleatória da célula com melhor estado.
-            idfut= rd.sample(range(len(X)),1)[0]
-            nova_coord= convert(X[idfut],Y[idfut],self.land.meta["transform"][:])
-            self.coord.append([nova_coord[0],nova_coord[1]])
+#          elif len(X)>1 and ale<=e: # escolha aleatória da célula com melhor estado.
+#            idfut= rd.sample(range(len(X)),1)[0]
+#            nova_coord= convert(X[idfut],Y[idfut],self.land.meta["transform"][:])
+#            self.coord.append([nova_coord[0],nova_coord[1]])
             
         elif self.Q[eatual,eatual] >= self.Q[estmax_disp,estmax_disp] and ale2<e2:
           self.coord.append([self.coord[-1][0],self.coord[-1][1]])
 
-        elif self.Q[eatual,eatual] >= self.Q[estmax_disp,estmax_disp] and ale2>e2:
-          if len(X)>1 and ale>e: #escolhendo a célula de melhor estado mais próxima
+        elif self.Q[eatual,eatual] >= self.Q[estmax_disp,estmax_disp] and ale2>=e2:
+          if len(X)>1: #escolhendo a célula de melhor estado mais próxima
             distx= abs(catual[0]- np.array(X))
             disty= abs(catual[1]- np.array(Y))
             euc_dist= (distx+disty)/2
@@ -126,10 +125,10 @@ class IndMemory(Individuo):
             nova_coord= convert(X[idfut],Y[idfut],self.land.meta["transform"][:])
             self.coord.append([nova_coord[0],nova_coord[1]])
 
-          elif len(X)>1 and ale<=e: # escolha aleatória da célula com melhor estado.
-            idfut= rd.sample(range(len(X)),1)[0]
-            nova_coord= convert(X[idfut],Y[idfut],self.land.meta["transform"][:])
-            self.coord.append([nova_coord[0],nova_coord[1]])
+#          elif len(X)>1 and ale<=e: # escolha aleatória da célula com melhor estado.
+#            idfut= rd.sample(range(len(X)),1)[0]
+#            nova_coord= convert(X[idfut],Y[idfut],self.land.meta["transform"][:])
+#            self.coord.append([nova_coord[0],nova_coord[1]])
             
           else:# Há apenas uma célula com o melhor estado
             nova_coord= convert(X[0],Y[0],self.land.meta["transform"][:])
