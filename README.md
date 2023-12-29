@@ -19,12 +19,12 @@ capacity model.
 
 4. *IndMemory*
     Individuals class that represents memory movement model,
-   the memory is built using reforcement-based learning.
+   the memory is built using reforcement-based learning.  
 
    Also, we have two others scripts, first is the metamodel that run all ecological dinamics
    and second is supports scripts.
-
-   By: Ph.D. Edgar Luiz de Lima
-   e-mail: edgarluizdelima@gmail.com
-   Research Gate: [Edgar Luiz de Lima]
+   
+By: Ph.D. Edgar Luiz de Lima  
+e-mail: edgarluizdelima@gmail.com  
+Research Gate: [Edgar Luiz de Lima]
    (https://www.researchgate.net/profile/Edgar-Luiz-De-Lima)
