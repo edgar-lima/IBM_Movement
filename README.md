@@ -7,17 +7,17 @@ common to all navigation capacity classes, and three subclasses of each navigati
 capacity model.  
 
 ### Individuals classes
-1. *Individual*
+1. **Individual**  
     Individual superclass.
 
-2. *IndNoriented*
+2. **IndNoriented**  
     Individual class that represents random walk movement model.
 
-3. *IndOriented*
+3. **IndOriented**  
    Individual class that represents oriented walk movement model,
    the individuals collect information of landscape to chosse where to move.
 
-4. *IndMemory*
+4. **IndMemory**  
     Individuals class that represents memory movement model,
    the memory is built using reforcement-based learning.  
 
